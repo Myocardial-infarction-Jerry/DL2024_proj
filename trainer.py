@@ -185,7 +185,7 @@ class VolumeClassifier(object):
                                        best_score=self.metric_threshold,
                                        op_type='max')
 
-        with tqdm.tqdm(total=self.n_epoch-self.start_epoch, desc="Training & Validation", leave=True) as pbar:
+        with tqdm.tqdm(total=self.n_epoch, desc="Training & Validation", leave=True, initial=self.start_epoch) as pbar:
             for epoch in range(self.start_epoch, self.n_epoch):
                 train_loss, train_acc = self._train_on_epoch(
                     epoch, net, loss, optimizer, train_loader, scaler)

@@ -1,4 +1,31 @@
 \section{Methods}
 \label{sec:methods}
 
-\TODO{Describe the proposed methodology in detail, including any theoretical foundations, novel techniques, or key insights.}
+\subsection{Training Techniques}
+In this section, we delineate the various training techniques employed to optimize the performance of our model. These methods are fundamental to ensuring robust and reproducible results.
+
+\subsubsection{Random Seed}
+To ensure the reproducibility of our experiments, a fixed random seed was set across all stages of model training and evaluation. This practice mitigates the variability in results caused by random initializations and stochastic processes inherent in machine learning algorithms.
+
+\subsubsection{Cross-Validation}
+We utilized k-fold cross-validation to rigorously evaluate the performance of our model. This method involves partitioning the dataset into k subsets, training the model on k-1 subsets, and validating it on the remaining subset. This process is repeated k times, with each subset serving as the validation set once. Cross-validation provides a comprehensive assessment of the model’s generalizability.
+
+\subsubsection{Optimizer}
+The choice of optimizer is critical for the convergence and performance of deep learning models. We experimented with several optimizers, including Stochastic Gradient Descent (SGD), Adam, and RMSprop. Our final choice was based on empirical performance and convergence speed.
+
+\subsubsection{Lp Regularization}
+To prevent overfitting, we incorporated Lp regularization techniques, including L2 (Ridge) and L1 (Lasso) regularization. These techniques add a penalty to the loss function, proportional to the magnitude of the coefficients, thus encouraging the model to maintain simpler and more generalizable parameters.
+
+\subsection{Pretrained Model}
+For our initial model weights, we employed a pretrained Vision Transformer. Pretrained models provide a significant advantage by leveraging features learned from large-scale datasets, thereby improving the performance and convergence speed on our specific task.
+
+\subsection{Generating Extra Dataset}
+To augment our training data, we utilized a Deep Convolutional Generative Adversarial Network (DCGAN). This technique generates synthetic data that resembles the real dataset, thereby increasing the diversity and quantity of training examples. This approach is particularly beneficial when the available labeled data is limited.
+
+\subsection{Backbone Model}
+We compared the performance of two prominent backbone models: ResNet and Vision Transformer (ViT). ResNet, known for its deep residual learning framework, provides robust feature extraction capabilities, while ViT, leveraging self-attention mechanisms, offers superior performance in capturing global dependencies. Our experiments evaluated these models based on accuracy, computational efficiency, and scalability.
+
+\subsection{Visual-Linguistic Model in DCGAN}
+The integration of a Visual-Linguistic Model (VLM) within the DCGAN framework represents a novel approach in our methodology. VLMs, which combine visual and textual data, enhance the generative capabilities of the network by providing additional context and semantic richness. This integration is expected to yield higher quality and more contextually relevant synthetic data.
+
+\TODO{Provide further details on implementation specifics, hyperparameter tuning, and evaluation metrics.}

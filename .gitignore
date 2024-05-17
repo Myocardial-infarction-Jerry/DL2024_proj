@@ -137,3 +137,4 @@ gen_dataset/
 texlive.iso
 log/
 openai/
+pre_trained/

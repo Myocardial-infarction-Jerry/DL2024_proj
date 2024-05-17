@@ -3,11 +3,12 @@ from utils import get_weight_path, get_weight_list
 __all__ = ["resnet18", "resnet34", "resnet50", "resnet101", "resnet152", "resnext50_32x4d", "resnext101_32x8d", "resnext101_64x4d", "wide_resnet50_2", "wide_resnet101_2",
            "vit_b_16", "vit_b_32", "vit_l_16", "vit_l_32", "vit_h_14"]
 
-NET_NAME = 'resnet34'
-VERSION = 'ResNet1.1'
+NET_NAME = 'vit_b_16'
+VERSION = 'ViT1.0'
 DEVICE = '0'
 # Must be True when pre-training and inference
 PRE_TRAINED = True
+LOAD_MODEL = "pre_trained/ViT-B_16.pth"
 # 1,2,3,4,5
 CURRENT_FOLD = 1
 GPU_NUM = len(DEVICE.split(','))
@@ -22,18 +23,24 @@ WEIGHT_PATH = get_weight_path(CKPT_PATH)
 # print(WEIGHT_PATH)
 
 if PRE_TRAINED:
-    WEIGHT_PATH_LIST = get_weight_list('./ckpt/{}/'.format(VERSION))
+    try:
+        WEIGHT_PATH_LIST = get_weight_list('./ckpt/{}/'.format(VERSION))
+    except:
+        WEIGHT_PATH_LIST = None
 else:
-    WEIGHT_PATH_LIST = None
+    if LOAD_MODEL:
+        WEIGHT_PATH_LIST = LOAD_MODEL
+    else:
+        WEIGHT_PATH_LIST = None
 
 # Arguments when trainer initial
 INIT_TRAINER = {
     'net_name': NET_NAME,
-    'lr': 1E-4,
+    'lr': 0.0025,
     'n_epoch': 1000,
     'num_classes': 200,
     'image_size': 224,
-    'batch_size': 100,
+    'batch_size': 14,
     'train_mean': CUB_TRAIN_MEAN,
     'train_std': CUB_TRAIN_STD,
     'num_workers': 8,
@@ -53,7 +60,7 @@ INIT_TRAINER = {
 SETUP_TRAINER = {
     'output_dir': './ckpt/{}'.format(VERSION),
     'log_dir': './log/{}'.format(VERSION),
-    'optimizer': 'AdamW',
+    'optimizer': 'SGD',
     'loss_fun': 'Cross_Entropy',
     'class_weight': None,
     'lr_scheduler': 'MultiStepLR'
