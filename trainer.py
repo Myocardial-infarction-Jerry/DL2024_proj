@@ -181,7 +181,7 @@ class VolumeClassifier(object):
 
         early_stopping = EarlyStopping(patience=20,
                                        verbose=True,
-                                       monitor='val_loss',
+                                       monitor='val_acc',
                                        best_score=self.metric_threshold,
                                        op_type='max')
 
@@ -420,7 +420,9 @@ class VolumeClassifier(object):
             class_weight = torch.tensor(class_weight)
 
         if loss_fun == 'Cross_Entropy':
-            loss = nn.CrossEntropyLoss(class_weight)
+            loss = nn.CrossEntropyLoss(weight=class_weight)
+        elif loss_fun == 'L1':
+            loss = L1Loss()
 
         return loss
 
@@ -438,7 +440,8 @@ class VolumeClassifier(object):
 
         elif optimizer == 'AdamW':
             optimizer = torch.optim.AdamW(net.parameters(),
-                                          lr=lr, weight_decay=self.weight_decay)
+                                          lr=lr,
+                                          weight_decay=self.weight_decay)
 
         return optimizer
 
@@ -463,6 +466,18 @@ class VolumeClassifier(object):
         self.net.load_state_dict(checkpoint['state_dict'])
         self.start_epoch = checkpoint['epoch'] + 1
 
+# Custom Loss Function
+
+
+class L1Loss(nn.Module):
+    def __init__(self):
+        super(L1Loss, self).__init__()
+
+    def forward(self, output, target):
+        # target is assumed to be of shape [batch_size], input of shape [batch_size, num_classes]
+        target_expanded = target.unsqueeze(1).expand_as(
+            output)  # Expand target to match input shape
+        return nn.L1Loss()(output, target_expanded)
 
 # computing tools
 

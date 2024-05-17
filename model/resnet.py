@@ -11,25 +11,26 @@ import torch.nn as nn
 from torch import Tensor
 
 try:
-  from torch.hub import load_state_dict_from_url
+    from torch.hub import load_state_dict_from_url
 except ImportError:
-  from torch.utils.model_zoo import load_url as load_state_dict_from_url
+    from torch.utils.model_zoo import load_url as load_state_dict_from_url
 
 from torchvision.models._utils import _ovewrite_named_param
 
-__all__ = ["resnet18", "resnet34", "resnet50", "resnet101", "resnet152", "resnext50_32x4d", "resnext101_32x8d", "resnext101_64x4d", "wide_resnet50_2", "wide_resnet101_2"]
+__all__ = ["resnet18", "resnet34", "resnet50", "resnet101", "resnet152", "resnext50_32x4d",
+           "resnext101_32x8d", "resnext101_64x4d", "wide_resnet50_2", "wide_resnet101_2"]
 
 model_urls = {
-  'resnet18':'https://download.pytorch.org/models/resnet18-f37072fd.pth', 
-  'resnet34':'https://download.pytorch.org/models/resnet34-b627a593.pth',
-  'resnet50':'https://download.pytorch.org/models/resnet50-11ad3fa6.pth', 
-  'resnet101':'https://download.pytorch.org/models/resnet101-cd907fc2.pth',
-  'resnet152':'https://download.pytorch.org/models/resnet152-f82ba261.pth',
-  'resnext50_32x4d':"https://download.pytorch.org/models/resnext50_32x4d-1a0047aa.pth", 
-  'resnext101_32x8d':"https://download.pytorch.org/models/resnext101_32x8d-110c445d.pth",
-  'resnext101_64x4d':"https://download.pytorch.org/models/resnext101_64x4d-173b62eb.pth",
-  'wide_resnet50_2':"https://download.pytorch.org/models/wide_resnet50_2-95faca4d.pth",
-  'wide_resnet101_2':"https://download.pytorch.org/models/wide_resnet101_2-d733dc28.pth",
+    'resnet18': 'https://download.pytorch.org/models/resnet18-f37072fd.pth',
+    'resnet34': 'https://download.pytorch.org/models/resnet34-b627a593.pth',
+    'resnet50': 'https://download.pytorch.org/models/resnet50-11ad3fa6.pth',
+    'resnet101': 'https://download.pytorch.org/models/resnet101-cd907fc2.pth',
+    'resnet152': 'https://download.pytorch.org/models/resnet152-f82ba261.pth',
+    'resnext50_32x4d': "https://download.pytorch.org/models/resnext50_32x4d-1a0047aa.pth",
+    'resnext101_32x8d': "https://download.pytorch.org/models/resnext101_32x8d-110c445d.pth",
+    'resnext101_64x4d': "https://download.pytorch.org/models/resnext101_64x4d-173b62eb.pth",
+    'wide_resnet50_2': "https://download.pytorch.org/models/wide_resnet50_2-95faca4d.pth",
+    'wide_resnet101_2': "https://download.pytorch.org/models/wide_resnet101_2-d733dc28.pth",
 }
 
 
@@ -70,9 +71,11 @@ class BasicBlock(nn.Module):
         if norm_layer is None:
             norm_layer = nn.BatchNorm2d
         if groups != 1 or base_width != 64:
-            raise ValueError("BasicBlock only supports groups=1 and base_width=64")
+            raise ValueError(
+                "BasicBlock only supports groups=1 and base_width=64")
         if dilation > 1:
-            raise NotImplementedError("Dilation > 1 not supported in BasicBlock")
+            raise NotImplementedError(
+                "Dilation > 1 not supported in BasicBlock")
         # Both self.conv1 and self.downsample layers downsample the input when stride != 1
         self.conv1 = conv3x3(inplanes, planes, stride)
         self.bn1 = norm_layer(planes)
@@ -189,20 +192,25 @@ class ResNet(nn.Module):
             )
         self.groups = groups
         self.base_width = width_per_group
-        self.conv1 = nn.Conv2d(3, self.inplanes, kernel_size=7, stride=2, padding=3, bias=False)
+        self.conv1 = nn.Conv2d(
+            3, self.inplanes, kernel_size=7, stride=2, padding=3, bias=False)
         self.bn1 = norm_layer(self.inplanes)
         self.relu = nn.ReLU(inplace=True)
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
         self.layer1 = self._make_layer(block, 64, layers[0])
-        self.layer2 = self._make_layer(block, 128, layers[1], stride=2, dilate=replace_stride_with_dilation[0])
-        self.layer3 = self._make_layer(block, 256, layers[2], stride=2, dilate=replace_stride_with_dilation[1])
-        self.layer4 = self._make_layer(block, 512, layers[3], stride=2, dilate=replace_stride_with_dilation[2])
+        self.layer2 = self._make_layer(
+            block, 128, layers[1], stride=2, dilate=replace_stride_with_dilation[0])
+        self.layer3 = self._make_layer(
+            block, 256, layers[2], stride=2, dilate=replace_stride_with_dilation[1])
+        self.layer4 = self._make_layer(
+            block, 512, layers[3], stride=2, dilate=replace_stride_with_dilation[2])
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
         self.fc = nn.Linear(512 * block.expansion, num_classes)
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
-                nn.init.kaiming_normal_(m.weight, mode="fan_out", nonlinearity="relu")
+                nn.init.kaiming_normal_(
+                    m.weight, mode="fan_out", nonlinearity="relu")
             elif isinstance(m, (nn.BatchNorm2d, nn.GroupNorm)):
                 nn.init.constant_(m.weight, 1)
                 nn.init.constant_(m.bias, 0)
@@ -213,9 +221,11 @@ class ResNet(nn.Module):
         if zero_init_residual:
             for m in self.modules():
                 if isinstance(m, Bottleneck) and m.bn3.weight is not None:
-                    nn.init.constant_(m.bn3.weight, 0)  # type: ignore[arg-type]
+                    # type: ignore[arg-type]
+                    nn.init.constant_(m.bn3.weight, 0)
                 elif isinstance(m, BasicBlock) and m.bn2.weight is not None:
-                    nn.init.constant_(m.bn2.weight, 0)  # type: ignore[arg-type]
+                    # type: ignore[arg-type]
+                    nn.init.constant_(m.bn2.weight, 0)
 
     def _make_layer(
         self,
@@ -279,7 +289,7 @@ class ResNet(nn.Module):
     def forward(self, x: Tensor) -> Tensor:
         return self._forward_impl(x)
 
-    
+
 def _resnet(arch, pretrained=False, progress=True, **kwargs):
     model = ResNet(**kwargs)
 
@@ -288,6 +298,7 @@ def _resnet(arch, pretrained=False, progress=True, **kwargs):
                                               progress=progress)
         model.load_state_dict(state_dict)
     return model
+
 
 def resnet18(pretrained=False, progress=True, **kwargs):
     """Construct 18 layer Resnet model as in
@@ -307,6 +318,7 @@ def resnet18(pretrained=False, progress=True, **kwargs):
                    layers=[2, 2, 2, 2],
                    **kwargs)
 
+
 def resnet34(pretrained=False, progress=True, **kwargs):
     """Construct 34 layer Resnet model as in
     https://arxiv.org/abs/1512.03385
@@ -324,6 +336,7 @@ def resnet34(pretrained=False, progress=True, **kwargs):
                    block=BasicBlock,
                    layers=[3, 4, 6, 3],
                    **kwargs)
+
 
 def resnet50(pretrained=False, progress=True, **kwargs):
     """Construct 50 layer Resnet model as in
@@ -343,6 +356,7 @@ def resnet50(pretrained=False, progress=True, **kwargs):
                    layers=[3, 4, 6, 3],
                    **kwargs)
 
+
 def resnet101(pretrained=False, progress=True, **kwargs):
     """Construct 101 layer Resnet model as in
     https://arxiv.org/abs/1512.03385
@@ -361,6 +375,7 @@ def resnet101(pretrained=False, progress=True, **kwargs):
                    layers=[3, 4, 23, 3],
                    **kwargs)
 
+
 def resnet152(pretrained=False, progress=True, **kwargs):
     """Construct 152 layer Resnet model as in
     https://arxiv.org/abs/1512.03385
@@ -378,6 +393,7 @@ def resnet152(pretrained=False, progress=True, **kwargs):
                    block=Bottleneck,
                    layers=[3, 8, 36, 3],
                    **kwargs)
+
 
 def resnext50_32x4d(pretrained=False, progress=True, **kwargs):
     """Construct ResNeXt-50 32x4d model as in
@@ -398,6 +414,7 @@ def resnext50_32x4d(pretrained=False, progress=True, **kwargs):
                    layers=[3, 4, 6, 3],
                    **kwargs)
 
+
 def resnext101_32x8d(pretrained=False, progress=True, **kwargs):
     """Construct ResNeXt-101 32x8d model as in
     https://arxiv.org/abs/1611.05431
@@ -416,6 +433,7 @@ def resnext101_32x8d(pretrained=False, progress=True, **kwargs):
                    block=Bottleneck,
                    layers=[3, 4, 23, 3],
                    **kwargs)
+
 
 def resnext101_64x4d(pretrained=False, progress=True, **kwargs):
     """Construct ResNeXt-101 64x4d model as in
@@ -436,6 +454,7 @@ def resnext101_64x4d(pretrained=False, progress=True, **kwargs):
                    layers=[3, 4, 23, 3],
                    **kwargs)
 
+
 def wide_resnet50_2(pretrained=False, progress=True, **kwargs):
     """Construct Wide ResNet-50-2 model as in
     https://arxiv.org/abs/1605.07146
@@ -453,6 +472,7 @@ def wide_resnet50_2(pretrained=False, progress=True, **kwargs):
                    block=Bottleneck,
                    layers=[3, 4, 6, 3],
                    **kwargs)
+
 
 def wide_resnet101_2(pretrained=False, progress=True, **kwargs):
     """Construct Wide ResNet-101-2 model as in

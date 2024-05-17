@@ -135,3 +135,5 @@ analysis/
 datasets/
 gen_dataset/
 texlive.iso
+log/
+openai/

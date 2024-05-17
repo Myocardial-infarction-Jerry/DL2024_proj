@@ -7,7 +7,7 @@ NET_NAME = 'resnet34'
 VERSION = 'ResNet1.1'
 DEVICE = '0'
 # Must be True when pre-training and inference
-PRE_TRAINED = False
+PRE_TRAINED = True
 # 1,2,3,4,5
 CURRENT_FOLD = 1
 GPU_NUM = len(DEVICE.split(','))

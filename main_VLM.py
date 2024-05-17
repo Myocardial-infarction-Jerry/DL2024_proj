@@ -1,7 +1,7 @@
-## CLIP zero-shot
+# CLIP zero-shot
 from transformers import CLIPProcessor, CLIPModel
 from PIL import Image
-## install packages: torch, transformers==4.23.1
+# install packages: torch, transformers==4.23.1
 
 
 if __name__ == '__main__':
@@ -13,9 +13,16 @@ if __name__ == '__main__':
         param.requires_grad = False
     processor = CLIPProcessor.from_pretrained(model_name)
 
-    image = Image.open(r"Photo path")
-    text_labels = ["a photo of a cat", "a photo of a dog", "a photo of a horse"]
-    inputs = processor(text=text_labels, images=image, return_tensors="pt", padding=True)
+    image = Image.open(
+        r"datasets/CUB_200_2011/CUB_200_2011/images/020.Yellow_breasted_Chat/Yellow_Breasted_Chat_0001_21928.jpg")
+    # text_labels = ["a photo of a cat", "a photo of a dog",
+    #                "a photo of a horse", "a phtot of a bird"]
+    with open("datasets/CUB_200_2011/CUB_200_2011/classes.txt", "r") as f:
+        text_labels = f.read().splitlines()
+    text_labels = [label.split('.')[1] for label in text_labels]
+
+    inputs = processor(text=text_labels, images=image,
+                       return_tensors="pt", padding=True)
     outputs = model(**inputs)
     logits_per_image = outputs.logits_per_image
     probs = logits_per_image.softmax(dim=1)
@@ -23,5 +30,3 @@ if __name__ == '__main__':
 
     print(predicted_label_idx)
     print(text_labels[predicted_label_idx])
-
-
