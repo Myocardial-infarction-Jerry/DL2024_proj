@@ -10,8 +10,16 @@ In the FGVC field, various methodologies have been proposed to address this chal
     \item \textbf{Weakly-supervised Methods:} Combine features extracted at different scales to capture information at different granularities. This improves the robustness of the model but may require more computational resources.
 \end{itemize}
 
-Besides, the research in FGVC relies on large-scale datasets with detailed annotations, such as Stanford Dogs, CUB-200-2011, which are commonly used. While these datasets provide rich resources for FGVC research, they often have high annotation costs and limited data sizes, so it can be helpful of using datasets-expansion method like GAN or Diffusion Models. 
+Besides, the research in FGVC relies on large-scale datasets with detailed annotations, such as Stanford Dogs, CUB-200-2011, which are commonly used. While these datasets provide rich resources for FGVC research, they often have high annotation costs and limited data sizes, so it can be helpful of using datasets-expansion methods like GAN or Diffusion Models. 
 
-Common evaluation metrics in FGVC include accuracy, recall, F1 score, and confusion matrices. These metrics provide a comprehensive assessment of model performance and guide researchers' efforts for improvement.
+The rearch necessitates appropriate metrics to evaluate those models. Common evaluation metrics in FGVC include accuracy, recall, F1 score, and confusion matrices. These metrics provide a comprehensive assessment of model performance and guide researchers' efforts for improvement.
 
-\TODO{Provide a comprehensive review of existing literature on Fine-Grained Visual Classification (FGVC), including key methodologies, datasets, and evaluation metrics. Discuss the strengths and limitations of prior approaches, highlighting the gaps that this research aims to address.}
+Despite significant progress in FGVC methods, there are still limitations. For instance, deep learning-based methods often require large amounts of annotated data for training, which is costly to acquire. Moreover, the subtle differences between subcategories in FGVC pose a significant challenge for classification.
+
+Therefore, the research goals of this work aim to address these limitations and improve FGVC performance. Specifically, the goals include:
+\begin{itemize}
+    \item Exploring more effective feature extraction methods to capture the subtle differences in FGVC.
+    \item Investigating ways to reduce annotation costs while maintaining or improving model generalization.
+    \item Introducing new evaluation metrics and benchmark datasets to provide a more comprehensive evaluation of model performance.
+\end{itemize}
+By achieving these goals, we hope to make meaningful contributions to the development of FGVC.
