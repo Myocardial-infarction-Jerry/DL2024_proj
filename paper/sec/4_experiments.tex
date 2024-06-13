@@ -18,12 +18,12 @@ The performance of the models was evaluated using standard metrics, including ac
 \subsection{Results}
 We compared the performance of the ResNet and Vision Transformer (ViT) models. Figure \ref{fig:loss_comparison} shows the training and validation loss curves for both models.
 
-% \begin{figure}[h]
-%     \centering
-%     \includegraphics[width=\textwidth]{/home/chef/DL2024_proj/paper/res/data_loss.svg}
-%     \caption{Comparison of training and validation loss for ResNet and Vision Transformer (ViT) models.}
-%     \label{fig:loss_comparison}
-% \end{figure}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=240]{res/data_loss.png}
+    \caption{Comparison of training and validation loss for ResNet and Vision Transformer (ViT) models.}
+    \label{fig:loss_comparison}
+\end{figure}
 
 The results indicate that the Vision Transformer model converges faster and achieves lower validation loss compared to ResNet, demonstrating its superior performance in capturing global dependencies and generalizing to unseen data.
 
@@ -38,4 +38,4 @@ The experimental results highlight several key insights:
 \subsection{Ablation Studies}
 To further understand the impact of different components of our methodology, we conducted ablation studies by systematically removing or altering specific elements and observing the effects on model performance. These studies confirmed the critical importance of pretrained models, data augmentation, and hyperparameter tuning in achieving optimal results.
 
-\TODO{Include further experiments, such as the impact of different data augmentation strategies and detailed analysis of hyperparameter sensitivity.}
+%$\TODO{Include further experiments, such as the impact of different data augmentation strategies and detailed analysis of hyperparameter sensitivity.}

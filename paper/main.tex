@@ -1,5 +1,5 @@
 \documentclass[10pt,twocolumn,letterpaper]{article}
-
+\usepackage{abstract}
 \usepackage{cvpr}              % To produce the CAMERA-READY version
 % \usepackage[review]{cvpr}      % To produce the REVIEW version
 % \usepackage[pagenumbers]{cvpr} % To force page numbers, e.g. for an arXiv version
@@ -11,10 +11,10 @@
 \usepackage[pagebackref,breaklinks,colorlinks,citecolor=cvprblue]{hyperref}
 
 \def\paperID{*****} 
-\def\confName{CVPR}
+\def\confName{ANN}
 \def\confYear{2024}
 
-\title{\LaTeX\ Author Guidelines for \confName~Proceedings}
+\title{ FGVC Exploration for \confName~Lecture}
 
 \author{
 Senyuan Liu\\
@@ -27,8 +27,11 @@ Sun Yat-sen University\\
 }
 
 \begin{document}
+\twocolumn[
 \maketitle
 \input{sec/0_abstract}
+]
+\clearpage
 \input{sec/1_intro}
 \input{sec/2_related_work}
 \input{sec/3_methods}
