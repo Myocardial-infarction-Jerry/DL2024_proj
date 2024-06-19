@@ -7,7 +7,6 @@ from converter.common_utils import hdf5_reader
 from analysis.analysis_tools import calculate_CAMs, save_heatmap
 from data_utils.csv_reader import csv_reader_single
 
-count = 100
 mod = "ResNet1.0"
 
 test_csv_path = './csv_file/cub_200_2011.csv_test.csv'
