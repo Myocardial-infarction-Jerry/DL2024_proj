@@ -113,7 +113,7 @@ if __name__ == "__main__":
     ###############################################
     if 'train' in args.mode:
         # modification for new data
-        csv_path = './csv_file/cub_200_2011.csv_train.csv'
+        csv_path = './csv_file/cub_200_2011_train.csv'
         label_dict = csv_reader_single(
             csv_path, key_col='id', value_col='label')
 
@@ -172,7 +172,7 @@ if __name__ == "__main__":
     # Inference
     ###############################################
     elif 'inf' in args.mode:
-        test_csv_path = './csv_file/cub_200_2011.csv_test.csv'
+        test_csv_path = './csv_file/cub_200_2011_test.csv'
         label_dict = csv_reader_single(
             test_csv_path, key_col='id', value_col='label')
         test_path = list(label_dict.keys())

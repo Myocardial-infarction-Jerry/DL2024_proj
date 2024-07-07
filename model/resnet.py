@@ -290,13 +290,33 @@ class ResNet(nn.Module):
         return self._forward_impl(x)
 
 
+# def _resnet(arch, pretrained=False, progress=True, **kwargs):
+#     model = ResNet(**kwargs)
+
+#     if pretrained:
+#         state_dict = load_state_dict_from_url(model_urls[arch],
+#                                               progress=progress)
+#         model.load_state_dict(state_dict)
+#     return model
+
+
 def _resnet(arch, pretrained=False, progress=True, **kwargs):
     model = ResNet(**kwargs)
 
     if pretrained:
-        state_dict = load_state_dict_from_url(model_urls[arch],
-                                              progress=progress)
-        model.load_state_dict(state_dict)
+        state_dict = load_state_dict_from_url(
+            model_urls[arch], progress=progress)
+        # Adjust the fc layer if num_classes is provided and different from the pre-trained model
+        # default to 1000 if not provided
+        num_classes = kwargs.get('num_classes', 1000)
+        if num_classes != 1000:  # Change this if your pre-trained models default to a different number of classes
+            # Adjust state_dict to fit num_classes
+            state_dict['fc.weight'] = state_dict['fc.weight'][:num_classes, :]
+            state_dict['fc.bias'] = state_dict['fc.bias'][:num_classes]
+
+        # Load the state dictionary, adjusting for the potentially modified fully connected layer
+        model.load_state_dict(state_dict, strict=False)
+
     return model
 
 

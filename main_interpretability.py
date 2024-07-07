@@ -21,7 +21,7 @@ def to_cuda(numpy_array):
     return tensor
 
 
-test_csv_path = './csv_file/cub_200_2011.csv_test.csv'
+test_csv_path = './csv_file/cub_200_2011_test.csv'
 label_dict = csv_reader_single(test_csv_path, key_col='id', value_col='label')
 testlist = label_dict.keys()
 item = []

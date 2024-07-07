@@ -150,8 +150,10 @@ class VolumeClassifier(object):
             tr.ToCVImage(),
             tr.RandomResizedCrop(size=self.image_size, scale=(1.0, 1.0)),
             tr.RandomHorizontalFlip(),
+            tr.RandomRotate(),
+            tr.AddGaussianNoise(mean=0, std=3),
             tr.ToTensor(),
-            tr.Normalize(self.train_mean, self.train_std)
+            tr.Normalize(self.train_mean, self.train_std),
         ])
 
         train_dataset = DataGenerator(train_path,
@@ -179,7 +181,7 @@ class VolumeClassifier(object):
         if lr_scheduler is not None:
             lr_scheduler = self._get_lr_scheduler(lr_scheduler, optimizer)
 
-        early_stopping = EarlyStopping(patience=20,
+        early_stopping = EarlyStopping(patience=50,
                                        verbose=True,
                                        monitor='val_acc',
                                        best_score=self.metric_threshold,
@@ -402,7 +404,8 @@ class VolumeClassifier(object):
         if net_name.startswith('res') or net_name.startswith('wide_res'):
             import model.resnet as resnet
             net = resnet.__dict__[net_name](
-                num_classes=self.num_classes
+                num_classes=self.num_classes,
+                pretrained=True
             )
 
         elif net_name.startswith('vit_'):

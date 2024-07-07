@@ -5,14 +5,14 @@ Fine-grained visual classification (FGVC) is an important task in computer visio
 
 In the FGVC field, various methodologies have been proposed to address this challenge. These methods can be broadly categorized as follows:
 \begin{itemize}
-    \item \textbf{Fine-tuning Pre-trained Image Classification Networks:} These methods utilize pre-trained deep convolutional neural networks (CNNs), such as those trained on ImageNet, as a starting point and fine-tune them for specific FGVC tasks. While these methods benefit from the large amount of pre-training data and improved generalization, they may not be sensitive enough to the subtle differences in FGVC.
-    \item \textbf{Localization-Classification Methods:} These methods separate the FGVC task into two parts: first, localizing discriminative regions in the image, and then extracting features and performing classification based on those regions.
-    \item \textbf{Weakly-supervised Methods:} Combine features extracted at different scales to capture information at different granularities. This improves the robustness of the model but may require more computational resources.
+    \item \textbf{Fine-tuning Pre-trained Image Classification Networks:} These methods utilize pre-trained deep convolutional neural networks (CNNs), such as those trained on ImageNet, as a starting point and fine-tune them for specific FGVC tasks. While these methods benefit from the large amount of pre-training data and improved generalization, they may not be sensitive enough to the subtle differences in FGVC \cite{lin2015bilinear}.
+    \item \textbf{Localization-Classification Methods:} These methods separate the FGVC task into two parts: first, localizing discriminative regions in the image, and then extracting features and performing classification based on those regions \cite{zhang2016spda}.
+    \item \textbf{Weakly-supervised Methods:} Combine features extracted at different scales to capture information at different granularities. This improves the robustness of the model but may require more computational resources \cite{zhou2016learning}.
 \end{itemize}
 
-Besides, the research in FGVC relies on large-scale datasets with detailed annotations, such as Stanford Dogs, CUB-200-2011, which are commonly used. While these datasets provide rich resources for FGVC research, they often have high annotation costs and limited data sizes, so it can be helpful of using datasets-expansion methods like GAN or Diffusion Models.
+Besides, the research in FGVC relies on large-scale datasets with detailed annotations, such as Stanford Dogs, CUB-200-2011, which are commonly used. While these datasets provide rich resources for FGVC research, they often have high annotation costs and limited data sizes, so it can be helpful of using datasets-expansion methods like GAN or Diffusion Models \cite{wang2018learning}.
 
-The rearch necessitates appropriate metrics to evaluate those models. Common evaluation metrics in FGVC include accuracy, recall, F1 score, and confusion matrices. These metrics provide a comprehensive assessment of model performance and guide researchers' efforts for improvement.
+The research necessitates appropriate metrics to evaluate those models. Common evaluation metrics in FGVC include accuracy, recall, F1 score, and confusion matrices. These metrics provide a comprehensive assessment of model performance and guide researchers' efforts for improvement.
 
 Despite significant progress in FGVC methods, there are still limitations. For instance, deep learning-based methods often require large amounts of annotated data for training, which is costly to acquire. Moreover, the subtle differences between subcategories in FGVC pose a significant challenge for classification.
 
